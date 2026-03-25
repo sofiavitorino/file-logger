@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 public class EventSimulator {
 
     private Random random;
+    private LogWriter writer;
 
     private String[] messages = {
             "Backup completed successfully.",
@@ -17,8 +18,9 @@ public class EventSimulator {
             "CPU usage over threshold"
     };
 
-    public EventSimulator() {
+    public EventSimulator(LogWriter writer) {
         this.random = new Random();
+        this.writer = writer;
     }
 
     public void start() throws InterruptedException {
@@ -28,6 +30,7 @@ public class EventSimulator {
             String message = messages[random.nextInt(messages.length)];
             LogEntry entry = new LogEntry(currentTime, level, message);
             System.out.println(entry);
+            writer.write(entry);
             Thread.sleep(500);
         }
     }
